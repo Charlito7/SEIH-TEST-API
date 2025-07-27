@@ -2,18 +2,24 @@
 using Core.Application.Interface;
 using Core.Application.Interface.Repository;
 using Core.Application.Interface.Repository.Sales;
+using Core.Application.Interface.Repository.SEIH;
+using Core.Application.Interface.Security;
 using Core.Application.Interface.Services.Emails;
 using Core.Application.Interface.Services.Sales;
+using Core.Application.Interface.Services.SEIH.User;
 using Core.Application.Interface.Token;
 using Infrastructure.Repositories.User;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Product;
 using Infrastructure.Repository.Sales;
+using Infrastructure.Repository.SEIH.User;
 using Infrastructure.Security;
+using Infrastructure.Security.Permission;
 using Infrastructure.Services;
 using Infrastructure.Services.Emails;
 using Infrastructure.Services.Products;
 using Infrastructure.Services.Sales;
+using Infrastructure.Services.SEIH.User;
 using Infrastructure.Token;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -58,7 +64,14 @@ namespace Infrastructure
             //Security
             services.AddScoped<IHashingServices, HashingServices>();
 
-
+            //NEW
+            services.AddScoped<IUserPermissionService, UserPermissionService>();
+            services.AddScoped<IPermissionExclusionService, PermissionExclusionService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersSignIn, SignInUsers>();
+            services.AddScoped<IRolesRepository, RoleRepository>();
+          
 
             return services;
         }

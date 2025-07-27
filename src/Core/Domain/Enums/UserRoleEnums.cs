@@ -12,7 +12,8 @@ public enum UserRoleEnums
     Manager,
     Admin,
     SuperAdmin,
-    Associate
+    Associate,
+    SEIHMANAGER,
 }
 /* 
  ITAdmin: all read/write privileges

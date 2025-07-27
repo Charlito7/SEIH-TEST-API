@@ -17,5 +17,8 @@ public class CreateUserModel
     public string? Email { get; set; }
     [Required]
     public string? Password { get; set; }
-    public string? UserName { get { return Email; } }
+    public string? UserName { get; set; }
+    [Required]
+    public string? RoleName { get; set; }
+    public string? HospitalName { get; set; }
 }

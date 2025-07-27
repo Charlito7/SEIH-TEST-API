@@ -20,7 +20,7 @@ namespace Infrastructure
             services.AddScoped<IAdminAssignRoles, AdminAssignRoles>();    
             services.AddScoped<IAdminRemoveRoles, AdminRemoveRoles>();
             services.AddScoped<IDoesUserBelongToRole, DoesUserBelongToRole>();  
-            services.AddScoped<ISignInUser, SignInUser>();
+            services.AddScoped<ISignInUser, SignInUsers>();
             services.AddScoped<IUpdateUserPassword, UpdateUserPassword>();
             services.AddScoped<IGetUsersProfileData, GetUserProfileData>();
 

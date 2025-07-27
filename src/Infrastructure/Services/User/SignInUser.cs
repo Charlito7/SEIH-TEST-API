@@ -13,13 +13,13 @@ using System.Net;
 
 namespace Infrastructure.Services.User
 {
-    public class SignInUser : ISignInUser
+    public class SignInUsers : ISignInUser
     {
         private readonly ISignInManager _signInManager;
         private readonly IUserManager _userManager;
         private readonly ITokenServices _tokenServices;
 
-        public SignInUser(ISignInManager signInManager, IUserManager userManager,
+        public SignInUsers(ISignInManager signInManager, IUserManager userManager,
             ITokenServices tokenServices)
         {
             _signInManager = signInManager;

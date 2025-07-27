@@ -1,4 +1,5 @@
 ﻿using Core.Application.Commons.ServiceResult;
+using Core.Application.Interface.Services.SEIH.User;
 using Core.Application.Interfaces.Services.User;
 using Core.Application.Model.Request;
 using Core.Application.Model.Response;
@@ -6,15 +7,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers.Base;
 
-namespace WebApi.Controllers.User;
+namespace WebAPI.Controllers.SEIH.User;
 
 [ApiController]
-[Route("identity/user")]
+[Route("seih/identity/user")]
 public class SignInUserSEIHController : BaseController
 {
-    private readonly ISignInUser _service;
+    private readonly IUsersSignIn _service;
 
-    public SignInUserSEIHController(ISignInUser service)
+    public SignInUserSEIHController(IUsersSignIn service)
     {
         _service = service;
     }
@@ -22,7 +23,7 @@ public class SignInUserSEIHController : BaseController
 
     [HttpPost]
     [AllowAnonymous]
-    [Route("login", Name = "UserLogin")]
+    [Route("loginseih", Name = "UserSEIHLogin")]
     public async Task<ActionResult<UserSignInResponse>> LoginUserAsync(UserLoginModel model)
     {
         if (!ModelState.IsValid)
@@ -36,7 +37,7 @@ public class SignInUserSEIHController : BaseController
             // Return BadRequest with error messages
             return BadRequest(new { Errors = errorMessages });
         }
-        var result = await _service.SingInAsync(model);
+        var result = await _service.SingInUserAsync(model);
 
         if (result.IsError)
         {
@@ -45,7 +46,7 @@ public class SignInUserSEIHController : BaseController
 
         var response = result.Result;
 
-        Response.Cookies.Append("SessionId", response.Token!, new CookieOptions
+        Response.Cookies.Append("SessionId", response.Token, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
@@ -54,7 +55,7 @@ public class SignInUserSEIHController : BaseController
         });
 
 
-        Response.Cookies.Append("RefreshToken", response.RefreshToken!, new CookieOptions
+        Response.Cookies.Append("RefreshToken", response.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,

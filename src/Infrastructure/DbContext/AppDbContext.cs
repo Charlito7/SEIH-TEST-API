@@ -2,7 +2,9 @@
 using Core.Domain.Commons;
 using Core.Domain.Entities;
 using Core.Domain.Entity;
+using Core.Domain.Entity.SEIH;
 using Core.Domain.Procedures;
+using Core.Domain.Procedures.SEIH;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,16 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
     public DbSet<GetAllSalesMetadata> GetAllSalesMetadata { get; set; }
     public DbSet<GetSellerSalesTotalPriceAndQuantityToday> GetSellerSalesTotalPriceAndQuantityTodays { get; set; }
     public DbSet<SellerDailyResumeEntity> SellerDailyResumes { get; set; }
-    public DbSet<GetSalesSummaryDto> GetSalesSummary { get; set; }  
+    public DbSet<GetSalesSummaryDto> GetSalesSummary { get; set; }
+
+    //NEW
+    public DbSet<UsersRoleEntity> UsersRole { get; set; }
+    public DbSet<RolePermissionEntity> RolesPermission { get; set; }
+    public DbSet<RolesEntity> Rolesv2 { get; set; }
+    public DbSet<UsersEntity> User { get; set; }
+    public DbSet<HospitalEntity> Hospitals { get; set; }
+    public DbSet<GetUserRolesResponse> GetUserRoles { get; set; }
+    public DbSet<GetUserRolesWithPermissionResponse> GetUserRolesWithPermission { get; set; }
 
 
 
@@ -57,6 +68,12 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        // New
+        builder.Entity<RolesEntity>(entity => { entity.ToTable("seih_roles"); });
+        builder.Entity<HospitalEntity>(entity => { entity.ToTable("seih_hospital"); });
+        builder.Entity<UsersEntity>(entity => { entity.ToTable("seih_users"); });
+        builder.Entity<UsersRoleEntity>(entity => { entity.ToTable("seih_userroles"); });
+        //Old
         builder.Entity<UserEntity>(entity => { entity.ToTable("users"); });
         builder.Entity<UserRoleEntity>(entity => { entity.ToTable("roles"); });
         builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("userclaims"); });
@@ -74,6 +91,12 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
         builder.Entity<SellerDailyResumeEntity>().HasNoKey();
         builder.Entity<GetSellerSalesTotalPriceAndQuantityToday>().HasNoKey();
         builder.Entity<GetSalesSummaryDto>().HasNoKey();
+        //New
+        builder.Entity<RolePermissionEntity>().HasNoKey();
+
+        //Procedure Mapping
+        builder.Entity<GetUserRolesResponse>().HasNoKey();
+        builder.Entity<GetUserRolesWithPermissionResponse>().HasNoKey();
 
     }
 }

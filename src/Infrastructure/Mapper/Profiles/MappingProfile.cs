@@ -4,6 +4,7 @@ using Core.Application.Model.Response;
 using Core.Application.Model.Response.Product;
 using Core.Domain.Entities;
 using Core.Domain.Entity;
+using Core.Domain.Entity.SEIH;
 using Core.Domain.Procedures;
 using Newtonsoft.Json;
 using System;
@@ -27,6 +28,7 @@ public class MappingProfile : Profile
                    ? new List<ProductSaleDetail>()
                    : JsonConvert.DeserializeObject<List<ProductSaleDetail>>(src.ProductSalesDetails)));
 
+        CreateMap<CreateUserModel, UsersEntity>();
     }
 
 

@@ -45,7 +45,7 @@ public static class DependencyInjection
             options.AddPolicy("GeneralPolicy",
                 policy =>
                 {
-                    policy.WithOrigins(Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")) // Specify the allowed origin
+                    policy.WithOrigins(Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")!) // Specify the allowed origin
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials(); // Allow credentials
@@ -114,6 +114,21 @@ public static class DependencyInjection
         {
             options.SaveToken = true;
             options.RequireHttpsMetadata = false; //TODO: Change to true in Production
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    // Cherche le cookie "SessionId"
+                    var token = context.Request.Cookies["SessionId"];
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        context.Token = token;
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
+
             options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
             {
                 NameClaimType = "name",

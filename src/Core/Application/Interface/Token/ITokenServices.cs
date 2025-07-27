@@ -1,4 +1,6 @@
 ﻿using Core.Domain.Entities;
+using Core.Domain.Entity.SEIH;
+using Core.Domain.Procedures.SEIH;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,4 +19,7 @@ public interface ITokenServices
     string GenerateRefreshToken();
     ClaimsPrincipal GetPrincipalFromExpiredToken(string token, string key);
     ClaimsPrincipal GetPrincipalFromToken(string token);
+
+    //New
+    string BuildToken2(string key, string issuer, string audience, UsersEntity user, IEnumerable<GetUserRolesResponse> userRoles);
 }

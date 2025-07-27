@@ -1,5 +1,7 @@
 ﻿using Core.Application.Interface.Token;
 using Core.Domain.Entities;
+using Core.Domain.Entity.SEIH;
+using Core.Domain.Procedures.SEIH;
 using Infrastructure.Constants;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +34,39 @@ public class TokenServices : ITokenServices
         foreach (var role in userRoles)
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+        double tokenLifetime = InfrastructureConstants.TOKEN_EXPIRY_DURATION_DAYS;
+        double.TryParse(Environment.GetEnvironmentVariable(EnvFileConstants.ACCESS_TOKEN_LIFETIME_IN_DAYS), out tokenLifetime);
+        var tokenDescriptor = new JwtSecurityToken(issuer, audience, claims,
+            expires: DateTime.Now.AddDays(tokenLifetime),
+            signingCredentials: credentials);
+        string res = string.Empty;
+        try
+        {
+            res = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return res;
+    }
+    public string BuildToken2(string key, string issuer, string audience, UsersEntity user, IEnumerable<GetUserRolesResponse> userRoles)
+    {
+        var claims = new List<Claim>
+{
+    new Claim(ClaimTypes.Email, user.Email!),
+    new Claim("IsNewPasswordRequired", user.IsNewPasswordRequired.ToString()!),
+    new Claim("HospitalId", user.HospitalId.ToString()!),
+    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()!)
+};
+
+        foreach (var role in userRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
         }
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
