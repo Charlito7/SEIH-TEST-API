@@ -13,6 +13,6 @@ public interface IUsersRepository
     Task<UsersEntity?> GetUserByEmailAsync(string email);
     Task<IEnumerable<GetUserRolesResponse>> GetUserRolesAsync(Guid? userId);
     Task<IEnumerable<GetUserRolesWithPermissionResponse>> GetUserRolesWithPermissionAsync(Guid? userId);
-    Task<HospitalEntity?> GetHospitalByNameAsync(string hospitalName);
+
 
 }

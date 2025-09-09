@@ -11,7 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebAPI.Controllers;
 
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("category")]
 [ApiController]
 public class CategoryController : ControllerBase

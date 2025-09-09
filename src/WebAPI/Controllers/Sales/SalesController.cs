@@ -7,7 +7,7 @@ using WebApi.Controllers.Base;
 using WebApi.Filters;
 
 namespace WebAPI.Controllers.Sales;
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("sales")]
 [ApiController]
 public class SalesController : BaseController

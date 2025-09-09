@@ -17,17 +17,20 @@ namespace Infrastructure.Services.SEIH.User
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IRolesRepository _rolesRepository;
+        private readonly IHospitalRepository _hospitalRepository;
         private readonly IMapper _mapper;
 
         public UserService(
             IUsersRepository usersRepository,
             IRolesRepository rolesRepository,
             IMapper mapper,
-            AppDbContext applicationDbContext)
+            AppDbContext applicationDbContext,
+            IHospitalRepository hospitalRepository)
         {
             _usersRepository = usersRepository;
             _rolesRepository = rolesRepository;
             _mapper = mapper;
+            _hospitalRepository = hospitalRepository;
         }
 
         public async Task<ServiceResult<bool>> SEIH_AddRolesToUserAsync(ClaimsPrincipal claim, AddRolesToUserDto dataModel)
@@ -93,7 +96,7 @@ namespace Infrastructure.Services.SEIH.User
             }
 
             //Check if the hospital  exists
-            var hospital = await _usersRepository.GetHospitalByNameAsync(dataModel.HospitalName!);
+            var hospital = await _hospitalRepository.GetHospitalByNameAsync(dataModel.HospitalName!);
             if(hospital == null)
             {
                 return new ServiceResult<bool>(System.Net.HttpStatusCode.NotAcceptable);

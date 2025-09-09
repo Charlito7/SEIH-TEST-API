@@ -13,7 +13,7 @@ using WebApi.Filters;
 
 namespace WebAPI.Controllers;
 
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("products")]
 [ApiController]
 public class ProductController : AuthorizeBaseController

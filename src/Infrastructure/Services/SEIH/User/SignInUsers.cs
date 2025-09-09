@@ -47,6 +47,7 @@ public class SignInUsers : IUsersSignIn
         
         var result = MyPasswordHasher.VerifyHashedPassword(user, user.PasswordHash!, model.Password!);
 
+
         if (!result)
         {
             return new ServiceResult<UserSignInResponse>(HttpStatusCode.Unauthorized);

@@ -58,15 +58,7 @@ public class UsersRepository : IUsersRepository
         throw new NotImplementedException();
     }
 
-    public async Task<HospitalEntity?> GetHospitalByNameAsync(string hospitalName)
-    {
-        if (string.IsNullOrWhiteSpace(hospitalName))
-            return null;
 
-        return await _context.Hospitals
-                             .Where(u => u.Name == hospitalName && (u.IsDeleted == null || u.IsDeleted == false))
-                             .FirstOrDefaultAsync();
-    }
 
     public async Task<UsersEntity?> GetUserByEmailAsync(string email)
     {

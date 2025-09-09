@@ -99,7 +99,12 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<AppDbContext>();
 
 
-        DIExtensions.AddServices(services);
+        // Replace this line:
+        // DIExtensions.AddServices(services);
+
+        // With this line:
+        DIExtensions.AddServices(services, configuration);
+       // DIExtensions.AddServices(services);
 
         services.AddAuthentication(
     options =>

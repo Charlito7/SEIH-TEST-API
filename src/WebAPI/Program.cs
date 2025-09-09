@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 Env.Load();
-builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
-
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
         options.TokenLifespan = TimeSpan.FromHours(3));
 
 builder.Logging.AddConsole();
+//builder.WebHost.UseUrls("http://10.56.102.88:5254");
 var app = builder.Build();
 
 app.UseCors("GeneralPolicy");
