@@ -88,6 +88,8 @@ namespace Infrastructure
             services.AddScoped<IHospitalUserService, HospitalUserService>();
             services.AddScoped<IHospitalRoleService, HospitalRoleService>();
             services.AddScoped<IHospitalRoleRepository, HospitalRoleRepository>();
+            services.AddScoped<IHospitalPermissionService, HospitalPermissionService>();
+            services.AddScoped<IHospitalPermissionRepository, HospitalPermissionRepository>();
 
 
 

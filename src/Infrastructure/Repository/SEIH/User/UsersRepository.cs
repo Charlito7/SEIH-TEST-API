@@ -53,9 +53,11 @@ public class UsersRepository : IUsersRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UsersEntity>> GetAllUsersAsync()
+    public async Task<IEnumerable<GetUserListWithRolesResponse>> GetAllHospitalUsersWithRolesAsync(Guid hospitalId)
     {
-        throw new NotImplementedException();
+        return await _context.GetUserListWithRoles
+                    .FromSqlRaw("CALL SEIH_GetUserListWithRoles({0})", hospitalId)
+                    .ToListAsync();
     }
 
 
