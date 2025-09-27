@@ -7,8 +7,7 @@ using Core.Application.Interface.Services.SEIH.Hospital;
 using Core.Application.Model.Features;
 using Core.Domain.Entity;
 using Core.Domain.Entity.SEIH;
-using Infrastructure.Security;
-using Infrastructure.Utils;
+using Infrastructure.Repository.SEIH.Hospital;
 using System.Net;
 using System.Security.Claims;
 
@@ -23,6 +22,26 @@ public class HospitalRoleService : IHospitalRoleService
         _usersRepository = usersRepository;
         _hospitalRoleRepository = hospitalRoleRepository;
     }
+
+    public async Task<ServiceResult<IEnumerable<string>>> GetAllRoleServiceAsync(ClaimsPrincipal claim)
+    {
+        var email = claim.Claims
+      .Where(c => c.Type == System.Security.Claims.ClaimTypes.Email)
+      .Select(c => c.Value)
+      .FirstOrDefault();
+
+        var manager = await _usersRepository.GetUserByEmailAsync(email!);
+        if (manager == null)
+        {
+            //return new ServiceResult<string>(HttpStatusCode.Unauthorized);
+        }
+
+        var roles = await _hospitalRoleRepository.GetRoleListAsyncRepository(manager.HospitalId.ToString());
+
+        return new ServiceResult<IEnumerable<string>>(roles);
+        
+    }
+
     public async Task<ServiceResult<bool>> HospitalAddPermissionToRoleServiceAsync(ClaimsPrincipal claim, HospitalRolePermissionDto dataModel)
     {
         var email = claim.Claims

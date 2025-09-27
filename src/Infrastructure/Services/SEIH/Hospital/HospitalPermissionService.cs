@@ -22,7 +22,7 @@ public class HospitalPermissionService : IHospitalPermissionService
         _hospitalPermissionRepository = hospitalPermissionRepository;
     }
 
-    public async Task<ServiceResult<IEnumerable<string>>> GetAllPermissionServiceAsync()
+    public async Task<ServiceResult<IEnumerable<string>>> GetAllPermissionServiceAsync() 
     {
         var permissions = await _hospitalPermissionRepository.GetPermissionAsyncRepository();
 
