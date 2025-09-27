@@ -36,6 +36,21 @@ public class HospitalRoleRepository : IHospitalRoleRepository
         return role;
     }
 
+    public async Task<IEnumerable<string>> GetRoleListAsyncRepository(string hospitalId)
+    {
+        // Fix: Use '==' for comparison, and convert hospitalId to Guid for comparison with RolesEntity.HospitalId
+        if (!Guid.TryParse(hospitalId, out Guid hospitalGuid))
+        {
+            _logger.LogWarning("Invalid hospitalId format.");
+            return Enumerable.Empty<string>();
+        }
+
+        return await _context.Rolesv2
+            .Where(p => p.HospitalId == hospitalGuid)
+            .Select(p => p.Name!)
+            .ToListAsync();
+    }
+
     public async Task<bool> HospitalAddPermissionToRoleUserAsync(RolePermissionEntity rolePermission)
     {
         if (rolePermission == null)

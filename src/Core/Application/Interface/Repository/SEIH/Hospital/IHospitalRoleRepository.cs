@@ -13,4 +13,5 @@ public interface IHospitalRoleRepository
     Task<IEnumerable<RolePermissionEntity>> HospitalGetAllRoleWithPermissionsAsync();
     Task<RolesEntity?> GetRoleByNameAsync(string roleName, Guid hospitalId);
     Task<RolePermissionEntity?> GetPermissionByNameAsync(string permissionName);
+    Task<IEnumerable<string>> GetRoleListAsyncRepository(string hospitalId);
 }

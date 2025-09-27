@@ -61,4 +61,17 @@ public class HospitalRoleController : BaseController
         }
         return Ok(result);
     }
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("get/list", Name = "RoleList")]
+    public async Task<IActionResult> GetRoleListAsync()
+    {
+        var result = await _service.GetAllRoleServiceAsync(User);
+
+        if (result.IsError)
+        {
+            return BadRequest(result);
+        }
+        return Ok(result);
+    }
 }

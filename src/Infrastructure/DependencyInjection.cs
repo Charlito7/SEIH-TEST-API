@@ -42,10 +42,15 @@ public static class DependencyInjection
 
         services.AddCors(options =>
         {
+            var originsRaw = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS") ?? "";
+            var allowedOrigins = originsRaw
+                .Split(new[] { ',', ';', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(o => o.Trim().TrimEnd('/'))
+                .ToArray();
             options.AddPolicy("GeneralPolicy",
                 policy =>
                 {
-                    policy.WithOrigins(Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")!) // Specify the allowed origin
+                    policy.WithOrigins(allowedOrigins) // Specify the allowed origin
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials(); // Allow credentials
