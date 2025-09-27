@@ -6,6 +6,7 @@ using Core.Application.Interface.Services.SEIH;
 using Core.Application.Model.Features;
 using Core.Application.Model.Request;
 using Core.Domain.Entity.SEIH;
+using Core.Domain.Procedures.SEIH;
 using Infrastructure.Repository.SEIH.User;
 using Infrastructure.Security;
 using Infrastructure.Utils;
@@ -172,5 +173,23 @@ public class HospitalUserService : IHospitalUserService
         }
 
         return new ServiceResult<bool>(true);
+    }
+
+    public async Task<ServiceResult<IEnumerable<GetUserListWithRolesResponse>>> HospitalGetUsersListWithRolesAsync(ClaimsPrincipal claim)
+    {
+        var email = claim.Claims
+               .Where(c => c.Type == System.Security.Claims.ClaimTypes.Email)
+               .Select(c => c.Value)
+               .FirstOrDefault();
+
+        var manager = await _usersRepository.GetUserByEmailAsync(email!);
+        if (manager == null)
+        {
+            return new ServiceResult<IEnumerable<GetUserListWithRolesResponse>>(HttpStatusCode.Unauthorized);
+        }
+
+        var users = await _usersRepository.GetAllHospitalUsersWithRolesAsync(manager.HospitalId!);
+
+        return new ServiceResult<IEnumerable<GetUserListWithRolesResponse>>(users);
     }
 }

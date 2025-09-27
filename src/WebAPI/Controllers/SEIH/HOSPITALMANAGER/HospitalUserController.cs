@@ -76,8 +76,21 @@ public class HospitalUserController : BaseController
 
     [HttpPost]
     [AllowAnonymous]
+    [Route("get/list", Name = "HospitalGetUsersList")]
+    public async Task<IActionResult> GetHospitalUserWithRolesAsync()
+    {
+        var result = await _service.HospitalGetUsersListWithRolesAsync(User);
+
+        if (result.IsError)
+        {
+            return BadRequest(result);
+        }
+        return Ok(result);
+    }
+    [HttpPost]
+    [AllowAnonymous]
     [Route("update/profile", Name = "HospitalUserUpdateProfile")]
-    public async Task<IActionResult> UpdateUserProfileAsync(CreateUserModel model)
+    public async Task<IActionResult> GetHospitalUserListAsync(CreateUserModel model)
     {
         var result = await _service.HospitalCreateUserServiceAsync(User, model);
 

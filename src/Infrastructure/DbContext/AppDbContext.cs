@@ -32,11 +32,14 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
     //NEW
     public DbSet<UsersRoleEntity> UsersRole { get; set; }
     public DbSet<RolePermissionEntity> RolesPermission { get; set; }
+    public DbSet<PermissionEntity> Permissions { get; set; }
     public DbSet<RolesEntity> Rolesv2 { get; set; }
     public DbSet<UsersEntity> User { get; set; }
     public DbSet<HospitalEntity> Hospitals { get; set; }
     public DbSet<GetUserRolesResponse> GetUserRoles { get; set; }
     public DbSet<GetUserRolesWithPermissionResponse> GetUserRolesWithPermission { get; set; }
+    public DbSet<GetUserListWithRolesResponse> GetUserListWithRoles { get; set; }
+    
 
 
 
@@ -73,6 +76,7 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
         builder.Entity<HospitalEntity>(entity => { entity.ToTable("seih_hospital"); });
         builder.Entity<UsersEntity>(entity => { entity.ToTable("seih_users"); });
         builder.Entity<UsersRoleEntity>(entity => { entity.ToTable("seih_userroles"); });
+        builder.Entity<PermissionEntity>(entity => { entity.ToTable("seih_permission"); });
         //Old
         builder.Entity<UserEntity>(entity => { entity.ToTable("users"); });
         builder.Entity<UserRoleEntity>(entity => { entity.ToTable("roles"); });
@@ -97,6 +101,8 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
         //Procedure Mapping
         builder.Entity<GetUserRolesResponse>().HasNoKey();
         builder.Entity<GetUserRolesWithPermissionResponse>().HasNoKey();
+        builder.Entity<GetUserListWithRolesResponse>().HasNoKey();
+        
 
     }
 }
