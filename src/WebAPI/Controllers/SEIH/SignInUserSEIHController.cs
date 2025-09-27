@@ -70,7 +70,9 @@ public class SignInUserSEIHController : BaseController
             IsNewPasswordRequired = response.IsNewPasswordRequired,
             Initial = response.Initial,
             UserRoles = response.UserRoles,
-            Email = response.Email
+            Email = response.Email,
+            RefreshToken = response.RefreshToken,
+            Token = response.Token,
         };
         
         return Ok(new ServiceResult<UserSignInResponse>(res));
