@@ -10,6 +10,6 @@ public class HospitalRoleDto
 public class HospitalRolePermissionDto
 {
     public string? RoleName { get; set; }
-    public string? PermissionName { get; set; }
+    public List<string>? PermissionName { get; set; }
 
 }

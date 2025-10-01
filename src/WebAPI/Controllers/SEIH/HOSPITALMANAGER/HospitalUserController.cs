@@ -34,10 +34,10 @@ public class HospitalUserController : BaseController
 
     [HttpPost]
     [AllowAnonymous]
-    [Route("addRole", Name = "HospitalUserAddRole")]
-    public async Task<IActionResult> AddRoleAsync(CreateUserModel model)
+    [Route("addrole", Name = "HospitalUserAddRole")]
+    public async Task<IActionResult> AddRoleAsync(AddRolesToUserDTO model)
     {
-        var result = await _service.HospitalCreateUserServiceAsync(User, model);
+        var result = await _service.HospitalAddRoleToUserServiceAsync(User, model);
 
         if (result.IsError)
         {

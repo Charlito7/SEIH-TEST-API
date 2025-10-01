@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace Infrastructure.Security.Permission;
 
-public class PermissionMiddleware
+public class PermissionMiddleware 
 {
     private readonly RequestDelegate _next;
 

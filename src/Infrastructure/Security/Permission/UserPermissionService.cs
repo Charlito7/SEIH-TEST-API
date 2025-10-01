@@ -16,7 +16,7 @@ public class UserPermissionService : IUserPermissionService
         _usersRepository = usersRepository;
     }
 
-    public async Task<bool> HasPermissionAsync(Guid userId, string method, string path)
+    public async Task<bool> HasPermissionAsync(Guid userId, string method, string path) 
     {
         var normalizedPath = NormalizePath(path);
         var target = $"{method}_{normalizedPath}";

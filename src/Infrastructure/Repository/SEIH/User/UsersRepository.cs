@@ -73,9 +73,11 @@ public class UsersRepository : IUsersRepository
 
     }
 
-    public Task<UsersEntity?> GetUserByIdAsync(string userId)
+    public async  Task<UsersEntity?> GetUserByIdAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        return await _context.User
+                             .Where(u => u.Id == userId && (u.IsDeleted == null || u.IsDeleted == false))
+                             .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<GetUserRolesResponse>> GetUserRolesAsync(Guid? userId)

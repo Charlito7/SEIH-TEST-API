@@ -9,7 +9,7 @@ public interface IUsersRepository
     Task<bool> UpdateUserAsync(UsersEntity user);
 
     Task<bool> DeleteUserAsync(string userId);
-    Task<UsersEntity?> GetUserByIdAsync(string userId);
+    Task<UsersEntity?> GetUserByIdAsync(Guid userId);
     Task<UsersEntity?> GetUserByEmailAsync(string email);
     Task<IEnumerable<GetUserRolesResponse>> GetUserRolesAsync(Guid? userId);
     Task<IEnumerable<GetUserRolesWithPermissionResponse>> GetUserRolesWithPermissionAsync(Guid? userId);
