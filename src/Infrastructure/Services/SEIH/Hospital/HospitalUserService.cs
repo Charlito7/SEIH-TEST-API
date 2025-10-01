@@ -7,9 +7,11 @@ using Core.Application.Model.Features;
 using Core.Application.Model.Request;
 using Core.Domain.Entity.SEIH;
 using Core.Domain.Procedures.SEIH;
+using Infrastructure.Repository.SEIH.Hospital;
 using Infrastructure.Repository.SEIH.User;
 using Infrastructure.Security;
 using Infrastructure.Utils;
+using System.Data;
 using System.Net;
 using System.Security.Claims;
 
@@ -19,16 +21,52 @@ public class HospitalUserService : IHospitalUserService
 {
     private readonly IUsersRepository _usersRepository;
     private readonly IHospitalRepository _hospitalRepository;
+    private readonly IHospitalRoleRepository _hospitalRoleRepository;
+    private readonly IRolesRepository _rolesRepository;
     private readonly IMapper _mapper;
-    public HospitalUserService(IUsersRepository usersRepository, IMapper mapper, IHospitalRepository hospitalRepository )
+    public HospitalUserService(IUsersRepository usersRepository, IMapper mapper, IHospitalRepository hospitalRepository,
+        IHospitalRoleRepository hospitalRoleRepository, IRolesRepository rolesRepository)
     {
         _usersRepository = usersRepository;
         _mapper = mapper;
         _hospitalRepository = hospitalRepository;
+        _hospitalRoleRepository = hospitalRoleRepository;
+        _rolesRepository = rolesRepository;
     }
-    public Task<ServiceResult<bool>> HospitalAddRoleToUserServiceAsync(ClaimsPrincipal claim, AddRolesToUserDto dataModel)
+    public async Task<ServiceResult<bool>> HospitalAddRoleToUserServiceAsync(ClaimsPrincipal claim, AddRolesToUserDTO dataModel)
     {
-        throw new NotImplementedException();
+        var email = claim.Claims
+                   .Where(c => c.Type == System.Security.Claims.ClaimTypes.Email)
+                   .Select(c => c.Value)
+                   .FirstOrDefault();
+
+        var manager = await _usersRepository.GetUserByEmailAsync(email!);
+        if (manager == null)
+        {
+            return new ServiceResult<bool>(HttpStatusCode.Unauthorized);
+        }
+        //Check Role
+        var roleCreation = await _hospitalRoleRepository.GetRoleByNameAsync(dataModel.RoleName!, manager.HospitalId);
+        if (roleCreation == null)
+        {
+            return new ServiceResult<bool>(HttpStatusCode.Unauthorized);
+        }
+        //Check User
+        var userId = Guid.Parse(dataModel.UserId!);
+        var isUserExists = await _usersRepository.GetUserByIdAsync(userId);
+
+        if (isUserExists == null)
+        {
+            return new ServiceResult<bool>(System.Net.HttpStatusCode.NotAcceptable);
+        }
+
+        var IsRoleAssigned = await _rolesRepository.AssignRoles(isUserExists!.Id, roleCreation.Id);
+
+        if (!IsRoleAssigned)
+        {
+            return new ServiceResult<bool>(System.Net.HttpStatusCode.NotAcceptable);
+        }
+        return new ServiceResult<bool>(true);
     }
 
     public async Task<ServiceResult<bool>> HospitalCreateUserServiceAsync(ClaimsPrincipal claim, CreateUserModel dataModel)
