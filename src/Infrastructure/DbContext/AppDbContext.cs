@@ -1,4 +1,5 @@
-﻿using Core.Application.Model.Response;
+﻿using Core.Application.Contracts;
+using Core.Application.Model.Response;
 using Core.Domain.Commons;
 using Core.Domain.Entities;
 using Core.Domain.Entity;
@@ -39,7 +40,8 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
     public DbSet<GetUserRolesResponse> GetUserRoles { get; set; }
     public DbSet<GetUserRolesWithPermissionResponse> GetUserRolesWithPermission { get; set; }
     public DbSet<GetUserListWithRolesResponse> GetUserListWithRoles { get; set; }
-    
+    public DbSet<TransfertRequestEntity> TransfertRequests { get; set; }
+    public DbSet<TransfertEntity> Transferts { get; set; }
 
 
 
@@ -77,6 +79,9 @@ public class AppDbContext : IdentityDbContext<UserEntity, UserRoleEntity, string
         builder.Entity<UsersEntity>(entity => { entity.ToTable("seih_users"); });
         builder.Entity<UsersRoleEntity>(entity => { entity.ToTable("seih_userroles"); });
         builder.Entity<PermissionEntity>(entity => { entity.ToTable("seih_permission"); });
+        builder.Entity<TransfertRequestEntity>(entity => { entity.ToTable("seih_transfertrequest"); }); 
+        builder.Entity<TransfertEntity>(entity => { entity.ToTable("seih_transfert"); });
+
         //Old
         builder.Entity<UserEntity>(entity => { entity.ToTable("users"); });
         builder.Entity<UserRoleEntity>(entity => { entity.ToTable("roles"); });

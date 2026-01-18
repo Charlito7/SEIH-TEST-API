@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.Model.Features;
 using Core.Application.Model.Request;
 using Core.Application.Model.Response;
 using Core.Application.Model.Response.Product;
@@ -29,6 +30,8 @@ public class MappingProfile : Profile
                    : JsonConvert.DeserializeObject<List<ProductSaleDetail>>(src.ProductSalesDetails)));
 
         CreateMap<CreateUserModel, UsersEntity>();
+        CreateMap<HospitalEntity, HospitalDto>();
+
     }
 
 

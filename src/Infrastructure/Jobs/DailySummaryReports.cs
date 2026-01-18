@@ -13,7 +13,7 @@ public class DailySummaryReports : IJob
 {
     private readonly IEmailService _emailService;
     private readonly ISalesRepository _salesRepository;
-
+     
     public DailySummaryReports(IEmailService emailService, ISalesRepository salesRepository)
     {
        _emailService = emailService;

@@ -27,9 +27,9 @@ public class HospitalRepository : IHospitalRepository
         throw new NotImplementedException();
     }
 
-    public Task<List<HospitalEntity>> GetAllAsync()
+    public async Task<List<HospitalEntity>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Hospitals.ToListAsync();
     }
 
     public async Task<HospitalEntity?> GetHospitalByIdAsync(Guid hospitalId)
@@ -48,7 +48,7 @@ public class HospitalRepository : IHospitalRepository
             return null;
 
         return await _context.Hospitals
-                             .Where(u => u.Name == hospitalName && (u.IsDeleted == null || u.IsDeleted == false))
+                             .Where(u => u.Code == hospitalName && (u.IsDeleted == null || u.IsDeleted == false))
                              .FirstOrDefaultAsync();
     }
 

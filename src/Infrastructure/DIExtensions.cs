@@ -5,11 +5,13 @@ using Core.Application.Interface.Repository;
 using Core.Application.Interface.Repository.Sales;
 using Core.Application.Interface.Repository.SEIH;
 using Core.Application.Interface.Repository.SEIH.Hospital;
+using Core.Application.Interface.Repository.SEIH.Transfert;
 using Core.Application.Interface.Security;
 using Core.Application.Interface.Services.Emails;
 using Core.Application.Interface.Services.Sales;
 using Core.Application.Interface.Services.SEIH;
 using Core.Application.Interface.Services.SEIH.Hospital;
+using Core.Application.Interface.Services.SEIH.Transfert;
 using Core.Application.Interface.Services.SEIH.User;
 using Core.Application.Interface.Token;
 using Infrastructure.Repositories.User;
@@ -17,6 +19,7 @@ using Infrastructure.Repository;
 using Infrastructure.Repository.Product;
 using Infrastructure.Repository.Sales;
 using Infrastructure.Repository.SEIH.Hospital;
+using Infrastructure.Repository.SEIH.Transfert;
 using Infrastructure.Repository.SEIH.User;
 using Infrastructure.Security;
 using Infrastructure.Security.Permission;
@@ -26,6 +29,7 @@ using Infrastructure.Services.Products;
 using Infrastructure.Services.Sales;
 using Infrastructure.Services.SEIH;
 using Infrastructure.Services.SEIH.Hospital;
+using Infrastructure.Services.SEIH.Transfert;
 using Infrastructure.Services.SEIH.User;
 using Infrastructure.Token;
 using Microsoft.Extensions.Configuration;
@@ -90,6 +94,9 @@ namespace Infrastructure
             services.AddScoped<IHospitalRoleRepository, HospitalRoleRepository>();
             services.AddScoped<IHospitalPermissionService, HospitalPermissionService>();
             services.AddScoped<IHospitalPermissionRepository, HospitalPermissionRepository>();
+            services.AddScoped<ITransfertServices, TransfertServices>();
+            services.AddScoped<ITransfertRepository, TransfertRepository>();
+            services.AddScoped<IHospitalService, HospitalService>();
 
 
 
